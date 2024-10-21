@@ -166,13 +166,13 @@ PinholeCamera::Parameters::readFromYamlFile(const std::string& filename)
     fs["camera_name"] >> m_cameraName;
     m_imageWidth = static_cast<int>(fs["image_width"]);
     m_imageHeight = static_cast<int>(fs["image_height"]);
-
+    // 获得相机的畸变参数
     cv::FileNode n = fs["distortion_parameters"];
     m_k1 = static_cast<double>(n["k1"]);
     m_k2 = static_cast<double>(n["k2"]);
     m_p1 = static_cast<double>(n["p1"]);
     m_p2 = static_cast<double>(n["p2"]);
-
+    // 相机的内参矩阵
     n = fs["projection_parameters"];
     m_fx = static_cast<double>(n["fx"]);
     m_fy = static_cast<double>(n["fy"]);
@@ -454,6 +454,7 @@ PinholeCamera::liftProjective(const Eigen::Vector2d& p, Eigen::Vector3d& P) cons
     //double lambda;
 
     // Lift points to normalised plane
+    // 投影到归一化相机坐标系
     mx_d = m_inv_K11 * p(0) + m_inv_K13;
     my_d = m_inv_K22 * p(1) + m_inv_K23;
 
@@ -487,10 +488,12 @@ PinholeCamera::liftProjective(const Eigen::Vector2d& p, Eigen::Vector3d& P) cons
             my_u = my_d - inv_denom_d*Dy_d;
         }
         else
+        // 参考https://github.com/HKUST-Aerial-Robotics/VINS-Mono/issues/48
         {
             // Recursive distortion model
             int n = 8;
             Eigen::Vector2d d_u;
+            // 这里mx_d + du = 畸变后
             distortion(Eigen::Vector2d(mx_d, my_d), d_u);
             // Approximate value
             mx_u = mx_d - d_u(0);
@@ -808,7 +811,7 @@ void
 PinholeCamera::setParameters(const PinholeCamera::Parameters& parameters)
 {
     mParameters = parameters;
-
+    // 检查图片是否去过畸变
     if ((mParameters.k1() == 0.0) &&
         (mParameters.k2() == 0.0) &&
         (mParameters.p1() == 0.0) &&

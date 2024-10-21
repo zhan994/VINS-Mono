@@ -1,12 +1,11 @@
 #pragma once
-#include <ros/ros.h>
 #include <opencv2/highgui/highgui.hpp>
+#include <ros/ros.h>
 
 extern int ROW;
 extern int COL;
 extern int FOCAL_LENGTH;
 const int NUM_OF_CAM = 1;
-
 
 extern std::string IMAGE_TOPIC;
 extern std::string IMU_TOPIC;
@@ -23,4 +22,4 @@ extern int EQUALIZE;
 extern int FISHEYE;
 extern bool PUB_THIS_FRAME;
 
-void readParameters(ros::NodeHandle &n);
+void readParameters(ros::NodeHandle& n);

@@ -86,6 +86,14 @@ CameraFactory::generateCamera(Camera::ModelType modelType,
     }
 }
 
+/**
+ * @brief 
+ * 
+ * @param[in] filename 
+ * @return CameraPtr 
+ * 这里根据配置文件得到相机参数，我们只考虑针孔相机，得到畸变和内参，同时返回带有参数信息的类CameraPtr
+ */
+
 CameraPtr
 CameraFactory::generateCameraFromYamlFile(const std::string& filename)
 {
@@ -97,6 +105,7 @@ CameraFactory::generateCameraFromYamlFile(const std::string& filename)
     }
 
     Camera::ModelType modelType = Camera::MEI;
+    // 通过配置文件获取相机的模型
     if (!fs["model_type"].isNone())
     {
         std::string sModelType;

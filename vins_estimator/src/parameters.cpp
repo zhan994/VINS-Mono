@@ -51,9 +51,9 @@ void readParameters(ros::NodeHandle &n)
 
     fsSettings["imu_topic"] >> IMU_TOPIC;
 
-    SOLVER_TIME = fsSettings["max_solver_time"];
-    NUM_ITERATIONS = fsSettings["max_num_iterations"];
-    MIN_PARALLAX = fsSettings["keyframe_parallax"];
+    SOLVER_TIME = fsSettings["max_solver_time"];    // 单次优化最大求解时间
+    NUM_ITERATIONS = fsSettings["max_num_iterations"];  // 单词优化最大迭代次数
+    MIN_PARALLAX = fsSettings["keyframe_parallax"]; // 根据视差确定关键帧
     MIN_PARALLAX = MIN_PARALLAX / FOCAL_LENGTH;
 
     std::string OUTPUT_PATH;
@@ -67,6 +67,7 @@ void readParameters(ros::NodeHandle &n)
     std::ofstream fout(VINS_RESULT_PATH, std::ios::out);
     fout.close();
 
+    // imu、图像相关参数
     ACC_N = fsSettings["acc_n"];
     ACC_W = fsSettings["acc_w"];
     GYR_N = fsSettings["gyr_n"];
@@ -115,6 +116,7 @@ void readParameters(ros::NodeHandle &n)
     BIAS_ACC_THRESHOLD = 0.1;
     BIAS_GYR_THRESHOLD = 0.1;
 
+    // 传感器时间延时相关
     TD = fsSettings["td"];
     ESTIMATE_TD = fsSettings["estimate_td"];
     if (ESTIMATE_TD)

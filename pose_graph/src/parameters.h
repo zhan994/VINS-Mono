@@ -3,12 +3,12 @@
 #include "camodocal/camera_models/CameraFactory.h"
 #include "camodocal/camera_models/CataCamera.h"
 #include "camodocal/camera_models/PinholeCamera.h"
+#include <cv_bridge/cv_bridge.h>
 #include <eigen3/Eigen/Dense>
 #include <ros/ros.h>
 #include <sensor_msgs/Image.h>
 #include <sensor_msgs/PointCloud.h>
 #include <sensor_msgs/image_encodings.h>
-#include <cv_bridge/cv_bridge.h>
 
 extern camodocal::CameraPtr m_camera;
 extern Eigen::Vector3d tic;
@@ -24,5 +24,3 @@ extern int COL;
 extern std::string VINS_RESULT_PATH;
 extern int DEBUG_IMAGE;
 extern int FAST_RELOCALIZATION;
-
-
